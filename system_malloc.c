@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     int size = atoi(argv[1]);
     int* ptr;
 
-    for (int ix = 1; ix < size; ix++) {
+    for (int ix = 0; ix < size; ix++) {
         ptr = malloc(size * sizeof(int));
         
         if(ptr == NULL) {
