@@ -5,7 +5,10 @@
 #include <stdlib.h>
 
 #include "my_malloc.h"
+
 #define ALIGN(size) ((size + (sizeof(int) - 1)) / sizeof(int) * sizeof(int))
+#define MALLOC_NUM_OF_ITER 10
+#define REALLOC_NUM_OF_ITER 10
 
 Block *head = NULL;
 void* heap_start = NULL;
@@ -25,7 +28,7 @@ void split_block(Block *block, size_t size) {
 }
 
 void* get_blocks(size_t size) {
-    void* ptr = sbrk(size);
+    void* ptr = sbrk(100000);
     if (ptr == (void*)-1) {
         fprintf(stderr, "Failed to allocate memory using sbrk\n");
         exit(1);
@@ -35,7 +38,6 @@ void* get_blocks(size_t size) {
 
 void* my_malloc(size_t size) {
     size = ALIGN(size);
-
     Block* current = head;
     Block* prev = NULL;
 
@@ -119,38 +121,30 @@ void *my_realloc(void *ptr, size_t size) {
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        perror("Provide 3 arguments: ./<filename>, <size of memory>, <size of reallocated memory>\n");
+        perror("Provide 3 arguments: ./<filename>, <num of times to malloc>, <num of times to realloc>\n");
         exit(1);
     }
     int size = atoi(argv[1]);
     int* ptr;
-
-    for (int ix = 0; ix < size; ix++) {
+    printf("Allocated memory:\n");
+    for(int ix = 0; ix < MALLOC_NUM_OF_ITER; ++ix) {
         ptr = my_malloc(size);
         if(ptr == NULL) {
             fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        ptr[ix] = ix + 1;
-        printf("Allocated memory: %p, ptr[ix] = %d\n", ptr, ix); 
-    }
-    printf("\n\n");
+        printf("%d,\n", ptr);
+    } 
 
     int realloc_size = atoi(argv[2]);
-
-    if (ptr == NULL) {
-        fprintf(stderr,"Memory reallocation failed!\n");
-        exit(1);
-    }
-
-    for (int ix = 0; ix < realloc_size; ix++) {
-        ptr = my_realloc(ptr, realloc_size * sizeof(int));
+    printf("Reallocated memory:\n");
+    for(int ix = 0; ix < REALLOC_NUM_OF_ITER; ++ix) {
+        ptr = my_realloc(ptr, size);
         if(ptr == NULL) {
-            fprintf(stderr, "Failed to reallocate memory.\n");
+            fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        ptr[ix] = ix + 1;
-        printf("Reallocated memory: %p, ptr[ix] = %d\n", ptr, ix);
+        printf("%d,\n", ptr);
     }
     my_free(ptr);
     printf("Freed all allocated memory\n");
