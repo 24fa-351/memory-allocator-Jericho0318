@@ -1,41 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MALLOC_NUM_OF_ITER 10
+#define REALLOC_NUM_OF_ITER 10
+
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        perror("Provide 3 arguments: ./<filename>, <size of memory>, <size of reallocated memory>\n");
+        perror("Provide 3 arguments: ./<filename>, <size to malloc>, <size to realloc>\n");
         exit(1);
     }
     int size = atoi(argv[1]);
     int* ptr;
-
-    for (int ix = 0; ix < size; ix++) {
-        ptr = malloc(size * sizeof(int));
-        
+    printf("Allocated memory:\n");
+    for(int ix = 0; ix < MALLOC_NUM_OF_ITER; ++ix) {
+        ptr = malloc(size);
         if(ptr == NULL) {
             fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        ptr[ix] = ix + 1;
-        printf("Allocated memory: %p, ptr[ix] = %d\n", ptr, ix); 
-    }
-    printf("\n\n");
+        printf("%d,\n", ptr);
+    } 
 
     int realloc_size = atoi(argv[2]);
-
-    if (ptr == NULL) {
-        fprintf(stderr,"Memory reallocation failed!\n");
-        exit(1);
-    }
-
-    for (int ix = 1; ix < realloc_size; ix++) {
-        ptr = realloc(ptr, realloc_size * sizeof(int));
+    printf("Reallocated memory:\n");
+    for(int ix = 0; ix < REALLOC_NUM_OF_ITER; ++ix) {
+        ptr = realloc(ptr, size);
         if(ptr == NULL) {
-            fprintf(stderr, "Failed to reallocate memory.\n");
+            fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        ptr[ix] = ix + 1;
-        printf("Reallocated memory: %p, ptr[ix] = %d\n", ptr, ix);
+        printf("%d,\n", ptr);
     }
     free(ptr);
     printf("Freed all allocated memory\n");
