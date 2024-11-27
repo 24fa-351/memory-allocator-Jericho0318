@@ -121,7 +121,7 @@ void *my_realloc(void *ptr, size_t size) {
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        perror("Provide 3 arguments: ./<filename>, <num of times to malloc>, <num of times to realloc>\n");
+        perror("Provide 3 arguments: ./<filename>, <size to malloc>, <size to realloc>\n");
         exit(1);
     }
     int size = atoi(argv[1]);
