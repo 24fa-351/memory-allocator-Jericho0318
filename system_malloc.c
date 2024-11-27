@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        printf("%d,\n", ptr);
+        printf("%p,\n", ptr);
     } 
 
     int realloc_size = atoi(argv[2]);
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        printf("%d,\n", ptr);
+        printf("%p,\n", ptr);
     }
     free(ptr);
     printf("Freed all allocated memory\n");
