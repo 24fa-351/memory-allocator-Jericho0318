@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        printf("%p,\n", ptr);
+        printf("%p,\n", ptr); //Use %d to get decimal values instead of hex
     }
 
     int realloc_size = atoi(argv[2]);
@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Failed to allocate memory.\n");
             exit(1);
         }
-        printf("%p,\n", ptr);
+        printf("%p,\n", ptr); //Use %d to get decimal values instead of hex
     }
     my_free(ptr);
     printf("Freed all allocated memory\n");
